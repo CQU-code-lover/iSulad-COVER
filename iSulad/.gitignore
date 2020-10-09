@@ -1,0 +1,14 @@
+build
+*.pyc
+.deps
+.dirstamp
+.clangd
+.vscode
+GPATH
+GRTAGS
+GTAGS
+iSula-libutils
+compile_commands.json
+tags
+.clangd
+iSula-libutils

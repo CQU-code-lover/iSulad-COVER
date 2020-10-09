@@ -1,0 +1,117 @@
+2020-09-03 lifeng release 2.0.5
+    - !693 Set mount rootfs highest mode Merge pull request !693 from gaohuatao/update
+    - !692 log: fix log level to warn Merge pull request !692 from lifeng_isula/master
+    - !691 Readme: add guide for wiki Merge pull request !691 from lifeng_isula/master
+    - !690 devmapper: convert human size to get info Merge pull request !690 from gaohuatao/update
+    - !689  fix: fix error checking pthread_join return value bug Merge pull request !689 from JingWoo/master
+    - !688 unpack: restore file uid/gid when unpack Merge pull request !688 from lifeng_isula/master
+    - !686 cmd: use pointer instead of struct copy Merge pull request !686 from lifeng_isula/master
+    - !684 fix code review format bug Merge pull request !684 from gaohuatao/update
+    - !687 fix dt testcase coding style Merge pull request !687 from JingWoo/master
+    - !685 unlock driver when clean up driver failed Merge pull request !685 from Zhangxiaoyu/master
+    - !682 CI: fix wrong suffix from bash to sh Merge pull request !682 from lifeng_isula/master
+    - !681 unified suffix name of script files in CI Merge pull request !681 from Jackey_1024/my_CI
+    - !680 unified suffix name of script files Merge pull request !680 from Jackey_1024/master
+    - !676 fix code review comment Merge pull request !676 from wangfengtu/review
+    - !678 do no use docker.io in local storage Merge pull request !678 from wangfengtu/nodockerio
+    - !677 添加test/fuzz/fuzz.sh的copyright信息 Merge pull request !677 from Jackey_1024/master
+    - !675 change readme Merge pull request !675 from haozi007/master
+    - !674 devmapper: fix mark device id free bug Merge pull request !674 from gaohuatao/update
+    - !673 fix register dt testcase coredump Merge pull request !673 from JingWoo/master
+    - !672  DT: generate xml report for testcase Merge pull request !672 from JingWoo/master
+    - !670 clean code: remove unused code Merge pull request !670 from lifeng_isula/master
+    - !671 do not log or print local image name to avoid misunderstanding Merge pull request !671 from wangfengtu/local_image
+    - !669 do not log token Merge pull request !669 from wangfengtu/token
+    - !668 change the directory of the temporary socket file from `/tmp` to `/run` Merge pull request !668 from zklei/tmp
+    - !667 image: fix lock error when list all images Merge pull request !667 from lifeng_isula/master
+    - !666 回退 'Pull Request !664 : do not use docker.io' Merge pull request !666 from lifeng_isula/revert-merge-664-master
+    - !665 merge unit and function testcases coverage Merge pull request !665 from JingWoo/master
+    - !664 do not use docker.io Merge pull request !664 from wangfengtu/remove_dockerio
+    - !660 cleancode: Coding standardization Merge pull request !660 from JingWoo/master
+    - !663 do not print key path Merge pull request !663 from wangfengtu/key_dir
+    - !661 maskpath: donot mask cnos path now Merge pull request !661 from lifeng_isula/master
+    - !662 fix segment fault when list images Merge pull request !662 from wangfengtu/segfault
+    - !658 more restricted created time check Merge pull request !658 from wangfengtu/valid_time
+    - !659 libarchive ≥ 3.2 Merge pull request !659 from YoungJQ/master
+    - !657 maskpath: add more masked paths Merge pull request !657 from lifeng_isula/master
+    - !656 Hold layer when creating image Merge pull request !656 from wangfengtu/hold
+    - !655 Fill xattrs in SCHILY only Merge pull request !655 from wangfengtu/xattr
+    - !654 isulad-shim: fix panic when remove one of the io copy node Merge pull request !654 from zklei/core
+    - !651 use libarchive to tar container's rootfs Merge pull request !651 from wangfengtu/export
+    - !650 shutdown: add sem for shutdown cleanup correct Merge pull request !650 from lifeng_isula/master
+    - !649 isula: fix memory leak in client create Merge pull request !649 from Zhangxiaoyu/master
+    - !648 driver: add wr lock to protect drviver between clean_up and other ops Merge pull request !648 from lifeng_isula/master
+    - !647 fix: shutdown grpc server without a deadline and forces cancellation Merge pull request !647 from JingWoo/master
+    - !645 devmapper: add deviceset free Merge pull request !645 from gaohuatao/update
+    - !646 mark failure if registry images ut take too much time Merge pull request !646 from wangfengtu/time_limit
+    - !644 fix isulad-check.sh Merge pull request !644 from Zhangxiaoyu/master
+
+    dev stats:
+      - 169 files changed, 1621 insertions(+), 1671 deletions(-)
+      - contributors: WangFengTu, lifeng68, wujing, gaohuatao, Zhangxiaoyu, jikui, leizhongkai, haozi007, lifeng_isula, root
+
+2020-08-10 lifeng release 2.0.4
+    - !640 code: add DEL fd from epoll when fail Merge pull request !640 from lifeng_isula/master
+    - !641 devmapper: optimize error processing log Merge pull request !641 from gaohuatao/update
+    - !639 ReadME: add contact ways for contributors to follow Merge pull request !639 from haomintsai/add-maillist
+    - !638 storage: add image layers exists Merge pull request !638 from lifeng_isula/master
+    - !637  View coderestore: do not remove container when restart state failed Merge pull request !637 from lifeng_isula/master
+    - !636 readme: fix performance title Merge pull request !636 from haozi007/master
+    - !635 image: fix coredump when create image/rootfs failed Merge pull request !635 from lifeng_isula/master
+    - !634 image: remove needless if Merge pull request !634 from haozi007/master
+    - !633 devmapper: remove invalid tmp metadata file Merge pull request !633 from gaohuatao/update
+    - !632 refector: fix cri code according to coding standards Merge pull request !632 from JingWoo/master
+    - !631 devmapper:fix update bug that base file removed and container inspect Merge pull request !631 from gaohuatao/update
+    - !630 refector: modernize cpp code Merge pull request !630 from JingWoo/master
+    - !629 do not retry if cancelled Merge pull request !629 from wangfengtu/no_retry
+    - !627 iSulad : add debug packages Merge pull request !627 from YoungJQ/master
+    - !628 performance test Merge pull request !628 from haozi007/master
+    - !626 add more unit test for pulling image Merge pull request !626 from wangfengtu/fix_logout
+    - !625 clean code: rename pause_container to do_pause_container Merge pull request !625 from lifeng_isula/master
+    - !624 retry fetch manifest if failed Merge pull request !624 from wangfengtu/retry_manifest
+    - !623 try print error message like before Merge pull request !623 from wangfengtu/echo_back
+    - !622 fix: Remove the lock and force deletion Merge pull request !622 from JingWoo/master
+    - !621 enhance stability of auths Merge pull request !621 from wangfengtu/auths
+    - !620 devmapper: add status interface semaphore info Merge pull request !620 from gaohuatao/update
+    - !619 fix login success even if server response unauthorized Merge pull request !619 from wangfengtu/login
+    - !618 devmapper: When thinpool has no space  left, echo err info Merge pull request !618 from gaohuatao/update
+    - !617 resume pulling layers Merge pull request !617 from wangfengtu/resume
+    - !616 quota: use default quota size when specify size=0 Merge pull request !616 from lifeng_isula/master
+    - !615 stats: stats --original show correct container name Merge pull request !615 from Zhangxiaoyu/master
+    - !613 image: move internal struct defines to image.c Merge pull request !613 from lifeng_isula/master
+    - !614 fix cann't logout by image Merge pull request !614 from wangfengtu/logout
+    - !611 concurrent pull layers Merge pull request !611 from wangfengtu/fast_pull
+    - !612 devmapper: surpport update from isulad-img Merge pull request !612 from gaohuatao/update
+    - !610 iSulad：add source file to libisulad_img.so Merge pull request !610 from Jackey_1024/master
+    - !607 fix check image error Merge pull request !607 from haozi007/master
+    - !609 add layer_store_ut code Merge pull request !609 from Zhangxiaoyu/master
+    - !608 iSulad: remove big-data related codes of rootfs_store Merge pull request !608 from Jackey_1024/master
+    - !606 devmapper: format codes to unify style and delete unused comments Merge pull request !606 from gaohuatao/master_dev1
+    - !605 isula stats: add --original option to show original data Merge pull request !605 from Zhangxiaoyu/master
+    - !604 image: only check embedded image in use at service module Merge pull request !604 from lifeng_isula/master
+    - !603 iSulad-img: remove iSulad-img from build guilde Merge pull request !603 from lifeng_isula/master
+    - !602 interface: remove image operate time out arguments Merge pull request !602 from lifeng_isula/master
+    - !601 Image:  merge implement_image to master Merge pull request !601 from lifeng_isula/image
+    - !586 Removes the definition of the thread attributes object Merge pull request !586 from JingWoo/master
+    - !580 tools: add generate release notes Merge pull request !580 from lifeng_isula/master
+    - !572 lxc: update lxc to 4.0.3 Merge pull request !572 from lifeng_isula/master
+    - !530 修复websocket限流可能引起卡死 Merge pull request !530 from JingWoo/master
+    - !550 build: add checkout LTS tag for third party software Merge pull request !550 from lifeng_isula/master
+    - !523 init struct before use it Merge pull request !523 from haozi007/work
+    - !519 fix create mtab bug to use lstat Merge pull request !519 from gaohuatao/ci_master
+    - !517 events: fix wrong format of exec command Merge pull request !517 from lifeng_isula/master
+    - !518 add -d/--disk param for CI Merge pull request !518 from gaohuatao/ci_master
+    - !494 CI: add testcases use host rootfs / Merge pull request !494 from lifeng_isula/master
+    - !492 Fix label-file reading bug Merge pull request !492 from JingWoo/master
+    - !485 fix bug of creating symlink for /etc/mtab when /etc symlink exists Merge pull request !485 from gaohuatao/master_mtab
+    - !489 Add Pull Request Template And Issue Template Merge pull request !489 from JingWoo/master
+    - !487 iSulad: resolve coredump of isula inspect "" Merge pull request !487 from Jackey_1024/ma_0623
+    - !467 isulad-shim: fix probabilistic bad fd Merge pull request !467 from zklei/epoll_ctl
+    - !465 Release v2.0.3 Merge pull request !465 from lifeng_isula/master
+    - !464 iSulad: change llt to ut Merge pull request !464 from Jackey_1024/0616
+
+    dev stats:
+      - 1029 files changed, 127349 insertions(+), 99155 deletions(-)
+      - contributors: lifeng68, wujing, WangFengTu, gaohuatao, LiFeng, haozi007, jikui, Zhangxiaoyu, zhangxiaoyu, Haomin, YoungJQ, farm, leizhongkai
+
+

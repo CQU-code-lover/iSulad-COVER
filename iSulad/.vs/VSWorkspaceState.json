@@ -1,0 +1,16 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\src",
+    "\\src\\daemon",
+    "\\src\\daemon\\modules",
+    "\\src\\daemon\\modules\\container",
+    "\\src\\utils",
+    "\\src\\utils\\http",
+    "\\src\\utils\\sha256",
+    "\\src\\utils\\tar",
+    "\\tools"
+  ],
+  "SelectedNode": "\\src\\daemon\\modules\\container\\container_unix.h",
+  "PreviewInSolutionExplorer": false
+}
