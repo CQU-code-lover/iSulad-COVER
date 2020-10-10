@@ -171,6 +171,7 @@ void container_free(container_t *container)
         return;
     }
 
+    //此处是否进行了存盘操作？？
     free_container_config_v2_common_config(container->common_config);
     container->common_config = NULL;
 
@@ -390,6 +391,9 @@ static inline void add_to_config_v2_args(const char *str, char **args, size_t *a
     (*args_len)++;
 }
 
+//函数作用：将container conf中的参数复制到v2 conf中
+//如果entrypoint参数不为空，将entrypoint以及cmd参数都复制到v2 conf中
+//如果entrypoint参数为空，只将cmd参数都复制到v2 conf中
 static int pack_path_and_args_from_container_spec(const container_config *container_spec,
                                                   container_config_v2_common_config *v2_spec)
 {
@@ -409,21 +413,26 @@ static int pack_path_and_args_from_container_spec(const container_config *contai
             goto out;
         }
 
+        //为entrypoint以及cmd参数的复制分配内存空间
         v2_spec->args = util_common_calloc_s(total * sizeof(char *));
         if (v2_spec->args == NULL) {
             ERROR("Out of memory");
             ret = -1;
             goto out;
         }
+        //将entrypoint参数复制到v2 conf中
         for (i = 1; i < container_spec->entrypoint_len; i++) {
             add_to_config_v2_args(container_spec->entrypoint[i], v2_spec->args, &(v2_spec->args_len));
         }
+        //将cmd参数复制到v2 conf中
         for (i = 0; i < container_spec->cmd_len; i++) {
             add_to_config_v2_args(container_spec->cmd[i], v2_spec->args, &(v2_spec->args_len));
         }
+        //转至函数return处
         goto out;
     }
 
+    //当entrypoint参数为空时才会执行此处的判断
     if (container_spec->cmd != NULL && container_spec->cmd_len > 0) {
         v2_spec->path = util_strdup_s(container_spec->cmd[0]);
         total = container_spec->cmd_len - 1;
@@ -443,6 +452,7 @@ static int pack_path_and_args_from_container_spec(const container_config *contai
             ret = -1;
             goto out;
         }
+        //只需要将cmd参数复制到v2 conf中
         for (i = 1; i < container_spec->cmd_len; i++) {
             add_to_config_v2_args(container_spec->cmd[i], v2_spec->args, &(v2_spec->args_len));
         }
@@ -453,6 +463,7 @@ out:
 }
 
 /* container merge basic v2 spec info */
+//这个函数会在executor层中创建容器时使用到
 int container_v2_spec_merge_contaner_spec(container_config_v2_common_config *v2_spec)
 {
     int ret = 0;
@@ -463,8 +474,10 @@ int container_v2_spec_merge_contaner_spec(container_config_v2_common_config *v2_
         return -1;
     }
 
+    //container_spec即v2_spec的config字段
     container_spec = v2_spec->config;
 
+    //遍历container_spec的annotations，将键被标识为CONTAINER_LOG_CONFIG_KEY_FILE的元素字段设置为v2_spec的log_path，log_path最后的值应该为最后一个被标识为CONTAINER_LOG_CONFIG_KEY_FILE的字段
     if (container_spec->annotations != NULL) {
         for (; i < container_spec->annotations->len; i++) {
             if (strcmp(container_spec->annotations->keys[i], CONTAINER_LOG_CONFIG_KEY_FILE) == 0) {
@@ -474,6 +487,7 @@ int container_v2_spec_merge_contaner_spec(container_config_v2_common_config *v2_
         }
     }
 
+    //将container_spec的参数（args）合并到v2_spec
     if (pack_path_and_args_from_container_spec(container_spec, v2_spec) != 0) {
         ret = -1;
         goto out;
@@ -483,6 +497,7 @@ out:
     return ret;
 }
 
+//将json字符串保存到目标文件中的函数
 /* save json config file */
 static int save_json_config_file(const char *id, const char *rootpath, const char *json_data, const char *fname)
 {
@@ -493,6 +508,8 @@ static int save_json_config_file(const char *id, const char *rootpath, const cha
     if (json_data == NULL || strlen(json_data) == 0) {
         return 0;
     }
+
+    //将路径与文件名合并为完整的文件名
     nret = snprintf(filename, sizeof(filename), "%s/%s/%s", rootpath, id, fname);
     if (nret < 0 || (size_t)nret >= sizeof(filename)) {
         ERROR("Failed to print string");
@@ -513,6 +530,7 @@ out:
 
 #define CONFIG_V2_JSON "config.v2.json"
 
+//保存v2配置文件
 /* save config v2 json */
 int save_config_v2_json(const char *id, const char *rootpath, const char *v2configstr)
 {
@@ -523,6 +541,7 @@ int save_config_v2_json(const char *id, const char *rootpath, const char *v2conf
     return save_json_config_file(id, rootpath, v2configstr, CONFIG_V2_JSON);
 }
 
+//读取v2配置文件
 /* read config v2 */
 container_config_v2 *read_config_v2(const char *rootpath, const char *id)
 {
@@ -537,6 +556,7 @@ container_config_v2 *read_config_v2(const char *rootpath, const char *id)
         goto out;
     }
 
+    //将目标v2文件解析为container_config_v2类型
     v2config = container_config_v2_parse_file(filename, NULL, &err);
     if (v2config == NULL) {
         ERROR("Failed to parse v2 config file:%s", err);
@@ -550,6 +570,7 @@ out:
 
 #define HOSTCONFIGJSON "hostconfig.json"
 /* save host config */
+//保存host配置文件
 int save_host_config(const char *id, const char *rootpath, const char *hostconfigstr)
 {
     if (rootpath == NULL || id == NULL || hostconfigstr == NULL) {
@@ -558,6 +579,7 @@ int save_host_config(const char *id, const char *rootpath, const char *hostconfi
     return save_json_config_file(id, rootpath, hostconfigstr, HOSTCONFIGJSON);
 }
 
+//读取host配置文件
 static host_config *read_host_config(const char *rootpath, const char *id)
 {
     int nret;
@@ -571,6 +593,7 @@ static host_config *read_host_config(const char *rootpath, const char *id)
         goto out;
     }
 
+    //将目标v2文件解析为host_config类型
     hostconfig = host_config_parse_file(filename, NULL, &err);
     if (hostconfig == NULL) {
         ERROR("Failed to parse host config file:%s", err);
@@ -581,6 +604,7 @@ out:
     return hostconfig;
 }
 
+//将容器的host config保存
 /* container save host config */
 static int container_save_host_config(const container_t *cont)
 {
@@ -627,6 +651,7 @@ static int container_save_config_v2(const container_t *cont)
 
     container_state_lock(cont->state);
 
+    //------------------config_v2的struct-------------------
     config_v2.common_config = cont->common_config;
 
     config_v2.state = cont->state->state;
@@ -766,6 +791,7 @@ out:
     return ret;
 }
 
+//将container从磁盘上加载到内存中并且启动
 /* container load */
 container_t *container_load(const char *runtime, const char *rootpath, const char *statepath, const char *id)
 {
@@ -779,18 +805,20 @@ container_t *container_load(const char *runtime, const char *rootpath, const cha
         return NULL;
     }
 
+    //读取v2配置文件
     v2config = read_config_v2(rootpath, id);
     if (v2config == NULL) {
         ERROR("Failed to read config v2 file:%s", id);
         return NULL;
     }
 
+    //读取host配置文件
     hostconfig = read_host_config(rootpath, id);
     if (hostconfig == NULL) {
         ERROR("Failed to host config file for container: %s", id);
         goto error_out;
     }
-
+    // cp old container config file "ociconfig.json" to "config.json"
     if (update_v1_config_to_v2(rootpath, id) != 0) {
         ERROR("Failed to update config to v2 for container: %s", id);
         goto error_out;
@@ -809,9 +837,10 @@ container_t *container_load(const char *runtime, const char *rootpath, const cha
     /* replace cont->state->state with v2config->state */
     free_container_config_v2_state(cont->state->state);
 
+    // container_config_v2_state类型state 从v2config中复制过来
     cont->state->state = v2config->state;
     v2config->state = NULL;
-
+    //释放v2 conf的内存空间
     free_container_config_v2(v2config);
 
     return cont;
@@ -824,6 +853,7 @@ error_out:
     return NULL;
 }
 
+//为含有空格的输入的参数字符串添加单引号
 static char *append_quote_to_arg(const char *arg)
 {
     size_t arg_len, total;

@@ -605,7 +605,7 @@ int new_gchandler()
         goto out;
     }
 
-    INFO("Restoring garbage collector...");
+    INFO("Restoring garbage collector..."); 
 
     if (gc_restore()) {
         ERROR("Failed to restore garbage collector");

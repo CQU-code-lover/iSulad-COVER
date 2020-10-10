@@ -102,6 +102,7 @@ char *container_exit_fifo_create(const char *cont_state_path)
         return NULL;
     }
 
+    //创建管道
     ret = mknod(fifo_path, S_IFIFO | S_IRUSR | S_IWUSR, (dev_t)0);
     if (ret < 0 && errno != EEXIST) {
         ERROR("Failed to mknod exit monitor fifo %s: %s.", fifo_path, strerror(errno));
@@ -111,6 +112,7 @@ char *container_exit_fifo_create(const char *cont_state_path)
     return util_strdup_s(fifo_path);
 }
 
+//打开exit fifo文件节点
 /* exit fifo open */
 int container_exit_fifo_open(const char *cont_exit_fifo)
 {
