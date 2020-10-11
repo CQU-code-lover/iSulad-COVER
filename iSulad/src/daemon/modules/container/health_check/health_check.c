@@ -697,7 +697,7 @@ static void *health_check_monitor(void *arg)
         goto out;
     }
 
-    if (get_now_time_stamp(&start_timestamp) == false) {
+    if (get_now_time_stamp(&start_timesta mp) == false) {
         ERROR("Failed to monitor start time stamp");
         goto out;
     }
@@ -758,7 +758,7 @@ void container_update_health_monitor(const char *container_id)
     }
     probe = get_probe(cont);
     want_running = cont->state->state->running && !cont->state->state->paused && probe != HEALTH_NONE;
-
+     
     if (want_running) {
         open_health_check_monitor(cont->health_check);
         pthread_t monitor_tid = { 0 };
